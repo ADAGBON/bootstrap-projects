@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nomad Horizons — Travel Agency</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --sky: #e8f4f8;
+      --ocean: #0a6e8a;
+      --deep: #063a4a;
+      --sand: #f2e9d8;
+      --coral: #e85d3a;
+      --mist: #c8e0e8;
+      --white: #ffffff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--deep);
+      font-weight: 300;
+    }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      background: rgba(6,58,74,0.95) !important;
+      backdrop-filter: blur(12px);
+      padding: 1rem 0;
+      transition: background 0.3s;
+    }
+    .navbar-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--white) !important;
+      letter-spacing: 1px;
+    }
+    .navbar-brand span { color: #7dd4e8; font-style: italic; }
+    .nav-link {
+      color: rgba(255,255,255,0.75) !important;
+      font-size: 0.82rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin: 0 0.4rem;
+      transition: color 0.3s;
+    }
+    .nav-link:hover { color: #7dd4e8 !important; }
+    .navbar-toggler { border-color: rgba(255,255,255,0.3); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 650px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1800&q=80') center/cover no-repeat;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(6,58,74,0.7) 0%, rgba(10,110,138,0.4) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center;
+      color: var(--white);
+      padding: 0 1rem;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #b8e8f5;
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 0.4rem 1.4rem;
+      border-radius: 50px;
+      margin-bottom: 1.8rem;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 700;
+      line-height: 1.05;
+      margin-bottom: 1.2rem;
+    }
+    .hero-title em { font-style: italic; color: #7dd4e8; }
+    .hero-sub {
+      font-size: 1rem;
+      opacity: 0.8;
+      max-width: 500px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+    .btn-ocean {
+      background: var(--coral);
+      border: none;
+      color: var(--white);
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 1rem 3rem;
+      border-radius: 2px;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+    .btn-ocean:hover { background: #c74828; color: var(--white); transform: translateY(-2px); }
+
+    /* ── SECTION LABELS ── */
+    .label {
+      font-size: 0.68rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--ocean);
+      display: block;
+      margin-bottom: 0.7rem;
+    }
+    .s-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--deep);
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .divider {
+      width: 40px;
+      height: 3px;
+      background: var(--coral);
+      margin: 1.2rem auto;
+      border-radius: 2px;
+    }
+
+    /* ── DESTINATIONS ── */
+    #destinations { background: var(--sky); padding: 6rem 0; }
+
+    .dest-card {
+      border: none;
+      border-radius: 0;
+      overflow: hidden;
+      box-shadow: 0 4px 30px rgba(6,58,74,0.08);
+      transition: transform 0.4s, box-shadow 0.4s;
+    }
+    .dest-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 40px rgba(6,58,74,0.18);
+    }
+    .dest-card .card-img-top {
+      height: 230px;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .dest-card:hover .card-img-top { transform: scale(1.05); }
+    .dest-card .card-body { padding: 1.6rem; background: var(--white); }
+    .dest-tag {
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ocean);
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+    .dest-card .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      color: var(--deep);
+      margin-bottom: 0.6rem;
+    }
+    .dest-card .card-text { font-size: 0.85rem; color: #4a6470; line-height: 1.7; }
+    .btn-outline-ocean {
+      border: 1px solid var(--ocean);
+      color: var(--ocean);
+      font-size: 0.72rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 0.55rem 1.4rem;
+      border-radius: 2px;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    .btn-outline-ocean:hover { background: var(--ocean); color: var(--white); }
+
+    /* ── TOURS / ACCORDION ── */
+    #tours { padding: 6rem 0; background: var(--white); }
+    .accordion-item {
+      border: none;
+      border-bottom: 1px solid var(--mist);
+      border-radius: 0 !important;
+    }
+    .accordion-button {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--deep);
+      background: transparent;
+      padding: 1.4rem 0;
+      box-shadow: none !important;
+    }
+    .accordion-button:not(.collapsed) {
+      color: var(--ocean);
+      background: transparent;
+    }
+    .accordion-button::after {
+      filter: hue-rotate(180deg);
+    }
+    .accordion-body { padding: 0 0 1.5rem 0; }
+    .tour-meta {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .tour-meta span {
+      font-size: 0.78rem;
+      color: var(--ocean);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .accordion-body p { font-size: 0.9rem; color: #4a6470; line-height: 1.8; }
+    .accordion-body a {
+      font-size: 0.78rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--coral);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1rem;
+    }
+    .accordion-body a:hover { color: var(--ocean); }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--sand); padding: 6rem 0; }
+    #contact .s-title { color: var(--deep); }
+
+    .contact-form .form-control,
+    .contact-form .form-select {
+      background: var(--white);
+      border: 1px solid #c8d8dc;
+      border-radius: 2px;
+      color: var(--deep);
+      padding: 0.85rem 1.1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+    }
+    .contact-form .form-control:focus,
+    .contact-form .form-select:focus {
+      border-color: var(--ocean);
+      box-shadow: 0 0 0 3px rgba(10,110,138,0.1);
+    }
+    .contact-form label {
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #5a7580;
+      margin-bottom: 0.4rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--deep);
+      padding: 2.8rem 0;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--white);
+    }
+    .footer-logo span { color: #7dd4e8; font-style: italic; }
+    .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.35); }
+    .social-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.6);
+      margin: 0 0.25rem;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+      text-decoration: none;
+      border-radius: 50%;
+    }
+    .social-btn:hover {
+      background: var(--ocean);
+      border-color: var(--ocean);
+      color: var(--white);
+    }
+
+    @media(max-width:768px){
+      .tour-meta { gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">Nomad <span>Horizons</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navLinks">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navLinks">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#destinations">Destinations</a></li>
+        <li class="nav-item"><a class="nav-link" href="#tours">Tours</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-badge">✦ Curated Travel Experiences</span>
+    <h1 class="hero-title">Discover the<br><em>World's Hidden</em><br>Wonders</h1>
+    <p class="hero-sub">Handcrafted journeys to over 60 destinations — from alpine peaks to tropical archipelagos. Your adventure begins here.</p>
+    <a href="#destinations" class="btn-ocean">Start Exploring</a>
+  </div>
+</section>
+
+<!-- DESTINATIONS -->
+<section id="destinations">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="label">Where to Next?</span>
+      <h2 class="s-title">Top Destinations</h2>
+      <div class="divider mx-auto"></div>
+    </div>
+    <div class="row g-4">
+
+      <div class="col-md-4">
+        <div class="card dest-card h-100">
+          <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=600&q=80" class="card-img-top" alt="Tokyo"/>
+          <div class="card-body">
+            <span class="dest-tag">Asia · Japan</span>
+            <h5 class="card-title">Tokyo, Japan</h5>
+            <p class="card-text">Where ancient temples meet neon-lit streets. Dive into Japan's electric capital — a feast of culture, cuisine, and contrast.</p>
+            <a href="#contact" class="btn-outline-ocean">Learn More</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card dest-card h-100">
+          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80" class="card-img-top" alt="Switzerland"/>
+          <div class="card-body">
+            <span class="dest-tag">Europe · Switzerland</span>
+            <h5 class="card-title">Swiss Alps</h5>
+            <p class="card-text">Breathtaking panoramas, charming chalets, and world-class ski resorts. The Alps offer adventures for every season.</p>
+            <a href="#contact" class="btn-outline-ocean">Learn More</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card dest-card h-100">
+          <img src="https://images.unsplash.com/photo-1512813195386-6cf811ad3542?w=600&q=80" class="card-img-top" alt="Maldives"/>
+          <div class="card-body">
+            <span class="dest-tag">Indian Ocean · Maldives</span>
+            <h5 class="card-title">Maldives Islands</h5>
+            <p class="card-text">Overwater bungalows, crystal lagoons, and coral reefs teeming with colour. The ultimate tropical escape awaits.</p>
+            <a href="#contact" class="btn-outline-ocean">Learn More</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TOURS ACCORDION -->
+<section id="tours">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+      <div class="col-lg-4">
+        <span class="label">Packages</span>
+        <h2 class="s-title">Tour Options</h2>
+        <div class="divider" style="margin-left:0;"></div>
+        <p style="font-size:0.9rem;color:#4a6470;line-height:1.8;">From weekend city breaks to month-long expeditions, every Nomad Horizons package is personally vetted by our travel curators.</p>
+      </div>
+      <div class="col-lg-8">
+        <div class="accordion" id="toursAccordion">
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#tour1">
+                Cultural Immersion — Japan & South Korea
+              </button>
+            </h2>
+            <div id="tour1" class="accordion-collapse collapse show" data-bs-parent="#toursAccordion">
+              <div class="accordion-body">
+                <div class="tour-meta">
+                  <span><i class="bi bi-calendar3"></i> 14 Days</span>
+                  <span><i class="bi bi-people"></i> 2–12 Guests</span>
+                  <span><i class="bi bi-currency-dollar"></i> From $3,800 p/p</span>
+                </div>
+                <p>Explore Kyoto's ancient shrines, Osaka's street food scene, and Seoul's buzzing districts. A deep dive into East Asian culture, history, and cuisine — expertly guided every step of the way.</p>
+                <a href="#contact">View Details <i class="bi bi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tour2">
+                Alpine Adventure — Swiss & French Alps
+              </button>
+            </h2>
+            <div id="tour2" class="accordion-collapse collapse" data-bs-parent="#toursAccordion">
+              <div class="accordion-body">
+                <div class="tour-meta">
+                  <span><i class="bi bi-calendar3"></i> 10 Days</span>
+                  <span><i class="bi bi-people"></i> 2–8 Guests</span>
+                  <span><i class="bi bi-currency-dollar"></i> From $4,200 p/p</span>
+                </div>
+                <p>Hike glacier trails, ride panoramic cable cars, and savour cheese fondue in centuries-old mountain villages. This package includes luxury lodge accommodation and a private mountain guide.</p>
+                <a href="#contact">View Details <i class="bi bi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tour3">
+                Island Serenity — Maldives Luxury Retreat
+              </button>
+            </h2>
+            <div id="tour3" class="accordion-collapse collapse" data-bs-parent="#toursAccordion">
+              <div class="accordion-body">
+                <div class="tour-meta">
+                  <span><i class="bi bi-calendar3"></i> 7 Days</span>
+                  <span><i class="bi bi-people"></i> 2–4 Guests</span>
+                  <span><i class="bi bi-currency-dollar"></i> From $5,500 p/p</span>
+                </div>
+                <p>A fully private retreat in an overwater villa, featuring sunrise snorkelling, sunset dolphin cruises, and bespoke spa treatments. Perfect for honeymoons and milestone celebrations.</p>
+                <a href="#contact">View Details <i class="bi bi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tour4">
+                African Safari — Kenya & Tanzania
+              </button>
+            </h2>
+            <div id="tour4" class="accordion-collapse collapse" data-bs-parent="#toursAccordion">
+              <div class="accordion-body">
+                <div class="tour-meta">
+                  <span><i class="bi bi-calendar3"></i> 12 Days</span>
+                  <span><i class="bi bi-people"></i> 2–10 Guests</span>
+                  <span><i class="bi bi-currency-dollar"></i> From $6,900 p/p</span>
+                </div>
+                <p>Witness the Great Migration across the Serengeti, track the Big Five in Amboseli, and enjoy sundowners over the savannah. This is the African adventure of a lifetime.</p>
+                <a href="#contact">View Details <i class="bi bi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="label">Plan Your Journey</span>
+      <h2 class="s-title">Get in Touch</h2>
+      <div class="divider mx-auto"></div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <form class="contact-form">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="fName">Full Name</label>
+              <input type="text" class="form-control" id="fName" placeholder="Your full name"/>
+            </div>
+            <div class="col-md-6">
+              <label for="fEmail">Email</label>
+              <input type="email" class="form-control" id="fEmail" placeholder="you@example.com"/>
+            </div>
+            <div class="col-12">
+              <label for="fDest">Destination of Interest</label>
+              <select class="form-select" id="fDest">
+                <option selected disabled value="">Select a destination…</option>
+                <option>Tokyo, Japan</option>
+                <option>Swiss Alps</option>
+                <option>Maldives</option>
+                <option>African Safari</option>
+                <option>Other / Not sure yet</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label for="fMsg">Your Message</label>
+              <textarea class="form-control" id="fMsg" rows="5" placeholder="Tell us your travel dates, group size, budget, or any special requests…"></textarea>
+            </div>
+            <div class="col-12 text-center">
+              <button type="submit" class="btn-ocean px-5 py-3 mt-2">Send Enquiry</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
+        <div class="footer-logo">Nomad <span>Horizons</span></div>
+      </div>
+      <div class="col-md-4 text-center mb-3 mb-md-0">
+        <p class="footer-copy">© 2025 Nomad Horizons Travel. All rights reserved.</p>
+      </div>
+      <div class="col-md-4 text-center text-md-end">
+        <a href="#" class="social-btn"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="social-btn"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="social-btn"><i class="bi bi-twitter-x"></i></a>
+        <a href="#" class="social-btn"><i class="bi bi-youtube"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
